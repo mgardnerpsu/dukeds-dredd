@@ -8,7 +8,6 @@ var Promise = require("node-promise").Promise;
 function createResource(request_method, request_path, request_payload) {
   var request = new Promise();
   var client = new Client();
-  var response_payload = {};
   var args = {
     "headers": { "Content-Type": "application/json", "Authorization": process.env.DUKEDS_API_KEY },
     "data": request_payload
