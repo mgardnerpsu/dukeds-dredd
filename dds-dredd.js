@@ -1,7 +1,7 @@
 var Dredd = require('dredd');
 
 configuration = {
-  server: 'https://dukeds-dev.herokuapp.com/api/v1', // your URL to API endpoint the tests will run against
+  server: process.env.DUKEDS_API_SERVER, // your URL to API endpoint the tests will run against
   options: {
 
     'path': ['../duke-data-service/apiary.apib'],  // Required Array if Strings; filepaths to API Blueprint files, can use glob wildcards
@@ -12,28 +12,9 @@ configuration = {
     'level': 'info', // String, log-level (info, silly, debug, verbose, ...)
     'silent': false, // Boolean, Silences all logging output
 
-    'only': [
-      'Authorization Roles > Authorization Roles collection > List roles',
-      'Authorization Roles > Authorization Role instance > View role',
-      'Current User > Current User instance > View current user',
-      'Current User > Current User instance > Current Users Usage',
-      'Users > Users collection > List users',
-      'Users > User instance > View user',
-	    'Projects > Projects collection > Create project',
-      'Projects > Projects collection > List projects',
-  		'Projects > Project instance > View project',
-      'Projects > Project instance > Update project',
-      'Projects > Project instance > Delete project',
-      'Project Permissions > Project Permissions collection > List project permissions',
-      'Project Permissions > Project Permission instance > Grant project permission',
-      'Project Permissions > Project Permission instance > View project permission',
-      'Project Permissions > Project Permission instance > Revoke project permission'
-  	], // Array of Strings, run only transaction that match these names
+    'only': [], // Array of Strings, run only transaction that match these names
 
-    'header': [
-      'Accept: application/json',
-      'Authorization: '.concat(process.env.DDS_API_KEY)
-    ],  // Array of Strings, these strings are then added as headers (key:value) to every transaction
+    'header': ['Accept: application/json', 'Authorization: '.concat(process.env.DUKEDS_API_KEY)], // Array of Strings, these strings are then added as headers (key:value) to every transaction
     'user': null,    // String, Basic Auth credentials in the form username:password
 
     'hookfiles': ['./hooks.js'], // Array of Strings, filepaths to files containing hooks (can use glob wildcards)
