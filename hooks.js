@@ -17,7 +17,7 @@ function createResource(request_method, request_path, request_payload) {
   client.methods.apiMethod(args, function(data, response) {
     if (!(_.contains([200, 201], response.statusCode))) {
         console.log('The create resource request failed - '.concat(response.statusCode).concat(': '));
-        console.log(path);
+        console.log(request_path);
         console.log(JSON.stringify(data));
         // console.log(response);
     }
