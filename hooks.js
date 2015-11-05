@@ -3,6 +3,8 @@ var shortid = require('shortid32');
 var _ = require('underscore');
 var Client = require('node-rest-client').Client;
 var Promise = require("node-promise").Promise;
+var fs = require("fs");
+var md5File = require('md5-file');
 
 // function to create resources on fly - returns promise
 function createResource(request_method, request_path, request_payload) {
@@ -25,6 +27,30 @@ function createResource(request_method, request_path, request_payload) {
   });
   return request;
 }
+
+// function to upload Swift file chunk - returns promise
+function uploadSwiftChunk(request_method, request_path, file) {
+  var request = new Promise();
+  var client = new Client();
+  var args = {
+    // "headers": { "Content-Type": "application/json", "Authorization": process.env.DUKEDS_API_KEY },
+    "data": fs.readFileSync(file, 'utf8')
+  };
+  console.log('Upload Swift chunk request path: '.concat(request_path));
+  client.registerMethod("apiMethod", request_path, request_method);
+  client.methods.apiMethod(args, function(data, response) {
+    console.log('Upload Swift chunk HTTP status code: '.concat(response.statusCode));
+    if (!(_.contains([200, 201], response.statusCode))) {
+        console.log('The Swift chunk upload failed - '.concat(response.statusCode).concat(': '));
+        console.log(request_path);
+        console.log(JSON.stringify(data));
+        // console.log(response);
+    }
+    request.resolve(data);
+  });
+  return request;
+}
+
 
 var LIST_AUTH_ROLES = "Authorization Roles > Authorization Roles collection > List roles";
 var VIEW_AUTH_ROLE = "Authorization Roles > Authorization Role instance > View role";
@@ -290,3 +316,180 @@ hooks.before(VIEW_STORAGE_PROVIDER, function (transaction) {
   var url = transaction.fullPath;
   transaction.fullPath = url.replace('g5579f73-0558-4f96-afc7-9d251e65bv33', storageProviderId);
 });
+
+var CREATE_FOLDER = "Folders > Folders collection > Create folder";
+var VIEW_FOLDER = "Folders > Folder instance > View folder";
+var DELETE_FOLDER = "Folders > Folder instance > Delete folder";
+var MOVE_FOLDER = "Folders > Folder instance > Move folder";
+var RENAME_FOLDER = "Folders > Folder instance > Rename folder";
+var responseStash = {};
+var g_folderId = null;
+
+hooks.before(CREATE_FOLDER, function (transaction) {
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['parent']['kind'] = 'dds-project';
+  requestBody['parent']['id'] = g_projectId;
+  requestBody['name'] = requestBody['name'].concat(' - ').concat(shortid.generate());
+  // stringify the new body to request
+  transaction.request.body = JSON.stringify(requestBody);
+});
+
+hooks.after(CREATE_FOLDER, function (transaction) {
+  // saving HTTP response to the stash
+  responseStash[CREATE_FOLDER] = transaction.real.body;
+});
+
+hooks.before(VIEW_FOLDER, function (transaction) {
+  // reusing data from previous response here
+  var folderId = JSON.parse(responseStash[CREATE_FOLDER])['id'];
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('d5ae02a4-b9e6-473d-87c4-66f4c881ae7a', folderId);
+  // set global id for downstream tests
+  g_folderId = folderId;
+});
+
+hooks.before(DELETE_FOLDER, function (transaction, done) {
+  var payload = { 
+    "parent": { "kind": "dds-folder", "id": g_folderId },
+    "name": "Delete folder for dredd - ".concat(shortid.generate())
+  };
+  var request = createResource('POST', '/folders', JSON.stringify(payload));
+  // delete sample folder resource we created
+  request.then(function(data) {
+    var url = transaction.fullPath;
+    transaction.fullPath = url.replace('d5ae02a4-b9e6-473d-87c4-66f4c881ae7a', data['id']);
+    done();
+  });
+});
+
+hooks.before(MOVE_FOLDER, function (transaction, done) {
+  var payload = { 
+    "parent": { "kind": "dds-project", "id": g_projectId },
+    "name": "Move folder for dredd - ".concat(shortid.generate())
+  };
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['parent']['kind'] = 'dds-folder';
+  requestBody['parent']['id'] = g_folderId;
+  // stringify the new body to request
+  transaction.request.body = JSON.stringify(requestBody);
+  var request = createResource('POST', '/folders', JSON.stringify(payload));
+  // move sample folder resource we created
+  request.then(function(data) {
+    var url = transaction.fullPath;
+    transaction.fullPath = url.replace('d5ae02a4-b9e6-473d-87c4-66f4c881ae7a', data['id']);
+    // console.log('transaction full path '.concat(transaction.fullPath));
+    // console.log('transaction request body '.concat(transaction.request.body));
+    done();
+  });
+});
+
+hooks.before(RENAME_FOLDER, function (transaction) {
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['name'] = requestBody['name'].concat(' - ').concat(shortid.generate()).concat(' - rename via dredd');
+  // stringify the new body to request
+  transaction.request.body = JSON.stringify(requestBody);
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('d5ae02a4-b9e6-473d-87c4-66f4c881ae7a', g_folderId);
+});
+
+var INIT_CHUNKED_UPLOAD = "Uploads > Uploads collection > Initiate chunked upload";
+var VIEW_CHUNKED_UPLOAD = "Uploads > Upload instance > View upload";
+var GET_CHUNK_URL = "Uploads > Upload instance > Get pre-signed chunk URL";
+var COMPLETE_CHUNKED_UPLOAD = "Uploads > Upload instance > Complete chunked file upload";
+var responseStash = {};
+var g_uploadId = null;
+// sample file properties for testing upload workflow
+var sampleFile = './upload-sample.html';
+var fstats = fs.statSync(sampleFile);
+var fsize = fstats['size'];
+var md5Hash = md5File(sampleFile);
+
+hooks.before(INIT_CHUNKED_UPLOAD, function (transaction) {
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['name'] = 'upload-sample'.concat('-').concat(shortid.generate()).concat('.html');
+  requestBody['content_type'] = 'text/html';
+  requestBody['size'] = fsize;
+  requestBody['hash']['value'] = md5Hash;
+  requestBody['hash']['algorithm'] = 'md5';
+  // stringify the new boy to request
+  transaction.request.body = JSON.stringify(requestBody);
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('666be35a-98e0-4c2e-9a17-7bc009f9bb23', g_projectId);
+});
+
+hooks.after(INIT_CHUNKED_UPLOAD, function (transaction) {
+  // saving HTTP response to the stash
+  responseStash[INIT_CHUNKED_UPLOAD] = transaction.real.body;
+});
+
+hooks.before(VIEW_CHUNKED_UPLOAD, function (transaction) {
+  // reusing data from previous response here
+  var uploadId = JSON.parse(responseStash[INIT_CHUNKED_UPLOAD])['id'];
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('666be35a-98e0-4c2e-9a17-7bc009f9bb23', uploadId);
+  // set global id for downstream tests
+  g_uploadId = uploadId;
+});
+
+hooks.before(GET_CHUNK_URL, function (transaction) {
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['number'] = 1;
+  requestBody['size'] = fsize;
+  requestBody['hash']['value'] = md5Hash;
+  requestBody['hash']['algorithm'] = 'md5';
+  // stringify the new boy to request
+  transaction.request.body = JSON.stringify(requestBody);
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('666be35a-98e0-4c2e-9a17-7bc009f9bb23', g_uploadId);
+});
+
+hooks.after(GET_CHUNK_URL, function (transaction, done) {
+  // saving HTTP response to the stash
+  responseStash[GET_CHUNK_URL] = transaction.real.body;
+  payload = JSON.parse(responseStash[GET_CHUNK_URL]);
+  request = uploadSwiftChunk('PUT', payload['host'].concat(payload['url']), sampleFile);
+  request.then(function(data) {
+    done();
+  });
+});
+
+hooks.before(COMPLETE_CHUNKED_UPLOAD, function (transaction) {
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('666be35a-98e0-4c2e-9a17-7bc009f9bb23', g_uploadId);
+});
+
+var SEARCH_PROJECT_CHILDREN = "Search Project/Folder Children > Search Project Children > Search Project Children";
+var SEARCH_FOLDER_CHILDREN = "Search Project/Folder Children > Search Folder Children > Search Folder Children";
+
+hooks.before(SEARCH_PROJECT_CHILDREN, function (transaction) {
+  // replacing id in URL with stashed id from previous response
+  // if (transaction.fullPath.indexOf('?') > -1) {
+  //   transaction.fullPath = transaction.fullPath.substr(0, url.indexOf('?'));
+  // } 
+  transaction.fullPath = transaction.fullPath.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_projectId);
+});
+
+hooks.before(SEARCH_FOLDER_CHILDREN, function (transaction) {
+  // replacing id in URL with stashed id from previous response
+  // if (transaction.fullPath.indexOf('?') > -1) {
+  //   transaction.fullPath = transaction.fullPath.substr(0, url.indexOf('?'));
+  // } 
+  transaction.fullPath = transaction.fullPath.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_folderId);
+});
+
