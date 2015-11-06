@@ -136,6 +136,7 @@ hooks.before(REVOKE_SYSTEM_PERMISSION, function (transaction) {
 });
 
 var CREATE_PROJECT = "Projects > Projects collection > Create project";
+var LIST_PROJECTS = "Projects > Projects collection > List projects";
 var VIEW_PROJECT = "Projects > Project instance > View project";
 var UPDATE_PROJECT = "Projects > Project instance > Update project";
 var DELETE_PROJECT = "Projects > Project instance > Delete project";
@@ -154,6 +155,14 @@ hooks.before(CREATE_PROJECT, function (transaction) {
 hooks.after(CREATE_PROJECT, function (transaction) {
   // saving HTTP response to the stash
   responseStash[CREATE_PROJECT] = transaction.real.body;
+});
+
+hooks.before(LIST_PROJECTS, function (transaction) {
+  // remove the optional query params
+  var url = transaction.fullPath;
+  if (url.indexOf('?') > -1) {
+    transaction.fullPath = url.substr(0, url.indexOf('?'));
+  } 
 });
 
 hooks.before(VIEW_PROJECT, function (transaction) {
@@ -404,6 +413,7 @@ hooks.before(RENAME_FOLDER, function (transaction) {
 });
 
 var INIT_CHUNKED_UPLOAD = "Uploads > Uploads collection > Initiate chunked upload";
+var LIST_CHUNKED_UPLOADS = "Uploads > Uploads collection > List chunked uploads";
 var VIEW_CHUNKED_UPLOAD = "Uploads > Upload instance > View upload";
 var GET_CHUNK_URL = "Uploads > Upload instance > Get pre-signed chunk URL";
 var COMPLETE_CHUNKED_UPLOAD = "Uploads > Upload instance > Complete chunked file upload";
@@ -434,6 +444,12 @@ hooks.before(INIT_CHUNKED_UPLOAD, function (transaction) {
 hooks.after(INIT_CHUNKED_UPLOAD, function (transaction) {
   // saving HTTP response to the stash
   responseStash[INIT_CHUNKED_UPLOAD] = transaction.real.body;
+});
+
+hooks.before(LIST_CHUNKED_UPLOADS, function (transaction) {
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('666be35a-98e0-4c2e-9a17-7bc009f9bb23', g_projectId);
 });
 
 hooks.before(VIEW_CHUNKED_UPLOAD, function (transaction) {
