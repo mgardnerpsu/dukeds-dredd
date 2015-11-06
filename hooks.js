@@ -51,7 +51,6 @@ function uploadSwiftChunk(request_method, request_path, file) {
   return request;
 }
 
-
 var LIST_AUTH_ROLES = "Authorization Roles > Authorization Roles collection > List roles";
 var VIEW_AUTH_ROLE = "Authorization Roles > Authorization Role instance > View role";
 var responseStash = {};
@@ -59,7 +58,7 @@ var responseStash = {};
 hooks.before(LIST_AUTH_ROLES, function (transaction) {
   // remove the optional query params
   var url = transaction.fullPath;
-  if(transaction.fullPath.indexOf('?') > -1) {
+  if (url.indexOf('?') > -1) {
     transaction.fullPath = url.substr(0, url.indexOf('?'));
   } 
 });
@@ -95,7 +94,7 @@ var g_userId = null;
 hooks.before(LIST_USERS, function (transaction) {;
   // remove the optional query params
   var url = transaction.fullPath;
-  if(transaction.fullPath.indexOf('?') > -1) {
+  if (url.indexOf('?') > -1) {
     transaction.fullPath = url.substr(0, url.indexOf('?'));
   } 
 });
@@ -204,6 +203,9 @@ var REVOKE_PROJECT_PERMISSION = "Project Permissions > Project Permission instan
 hooks.before(LIST_PROJECT_PERMISSIONS, function (transaction) {
   // replacing id in URL with stashed id from previous response
   var url = transaction.fullPath;
+  if (url.indexOf('?') > -1) {
+    url = url.substr(0, url.indexOf('?'));
+  } 
   transaction.fullPath = url.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_projectId);
 });
 
@@ -235,7 +237,7 @@ var responseStash = {};
 hooks.before(LIST_PROJECT_ROLES, function (transaction) {
   // remove the optional query params
   var url = transaction.fullPath;
-  if(transaction.fullPath.indexOf('?') > -1) {
+  if (url.indexOf('?') > -1) {
     transaction.fullPath = url.substr(0, url.indexOf('?'));
   } 
 });
@@ -266,6 +268,9 @@ hooks.before(LIST_AFFILIATES, function (transaction, done) {
   var request = createResource('PUT', '/projects/'.concat(g_projectId).concat('/affiliates/').concat(g_userId), JSON.stringify(payload));
   request.then(function(data) {
     var url = transaction.fullPath;
+    if (url.indexOf('?') > -1) {
+      url = url.substr(0, url.indexOf('?'));
+    } 
     transaction.fullPath = url.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_projectId);
     done();
   });
@@ -299,7 +304,7 @@ var responseStash = {};
 hooks.before(LIST_STORAGE_PROVIDERS, function (transaction) {
   // remove the optional query params
   var url = transaction.fullPath;
-  if(transaction.fullPath.indexOf('?') > -1) {
+  if (url.indexOf('?') > -1) {
     transaction.fullPath = url.substr(0, url.indexOf('?'));
   } 
 });
@@ -382,8 +387,6 @@ hooks.before(MOVE_FOLDER, function (transaction, done) {
   request.then(function(data) {
     var url = transaction.fullPath;
     transaction.fullPath = url.replace('d5ae02a4-b9e6-473d-87c4-66f4c881ae7a', data['id']);
-    // console.log('transaction full path '.concat(transaction.fullPath));
-    // console.log('transaction request body '.concat(transaction.request.body));
     done();
   });
 });
@@ -474,22 +477,55 @@ hooks.before(COMPLETE_CHUNKED_UPLOAD, function (transaction) {
   transaction.fullPath = url.replace('666be35a-98e0-4c2e-9a17-7bc009f9bb23', g_uploadId);
 });
 
+var CREATE_FILE = "Files > Files collection > Create file";
+var VIEW_FILE = "Files > File instance > View file";
+var DELETE_FILE = "Files > File instance > Delete file";
+var DOWNLOAD_FILE = "Files > File instance > Download file";
+var MOVE_FILE = "Files > File instance > Move file";
+var RENAME_FILE = "Files > File instance > Rename file";
+
+hooks.before(CREATE_FILE, function (transaction) {
+  transaction.skip = true;
+});
+
+hooks.before(VIEW_FILE, function (transaction) {
+  transaction.skip = true;
+});
+
+hooks.before(DELETE_FILE, function (transaction) {
+  transaction.skip = true;
+});
+
+hooks.before(DOWNLOAD_FILE, function (transaction) {
+  transaction.skip = true;
+});
+
+hooks.before(MOVE_FILE, function (transaction) {
+  transaction.skip = true;
+});
+
+hooks.before(RENAME_FILE, function (transaction) {
+  transaction.skip = true;
+});
+
 var SEARCH_PROJECT_CHILDREN = "Search Project/Folder Children > Search Project Children > Search Project Children";
 var SEARCH_FOLDER_CHILDREN = "Search Project/Folder Children > Search Folder Children > Search Folder Children";
 
 hooks.before(SEARCH_PROJECT_CHILDREN, function (transaction) {
   // replacing id in URL with stashed id from previous response
-  // if (transaction.fullPath.indexOf('?') > -1) {
-  //   transaction.fullPath = transaction.fullPath.substr(0, url.indexOf('?'));
-  // } 
-  transaction.fullPath = transaction.fullPath.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_projectId);
+  var url = transaction.fullPath;
+  if (url.indexOf('?') > -1) {
+    url = url.substr(0, url.indexOf('?'));
+  } 
+  transaction.fullPath = url.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_projectId);
 });
 
 hooks.before(SEARCH_FOLDER_CHILDREN, function (transaction) {
   // replacing id in URL with stashed id from previous response
-  // if (transaction.fullPath.indexOf('?') > -1) {
-  //   transaction.fullPath = transaction.fullPath.substr(0, url.indexOf('?'));
-  // } 
-  transaction.fullPath = transaction.fullPath.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_folderId);
+  var url = transaction.fullPath;
+  if (url.indexOf('?') > -1) {
+    url = url.substr(0, url.indexOf('?'));
+  } 
+  transaction.fullPath = url.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_folderId);
 });
 
