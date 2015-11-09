@@ -1,5 +1,8 @@
 var Dredd = require('dredd');
 
+// allow self-signed certs
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 configuration = {
   server: process.env.DUKEDS_API_SERVER, // your URL to API endpoint the tests will run against
   options: {
