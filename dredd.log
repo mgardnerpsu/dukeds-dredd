@@ -1,0 +1,1066 @@
+info: Using apiary reporter.
+warn: Apiary reporter environment variable APIARY_API_KEY or APIARY_API_NAME not defined.
+info: Beginning Dredd testing...
+info: Found Hookfiles: ./hooks.js
+pass: GET /auth_roles?context=system duration: 363ms
+pass: GET /auth_roles/file_editor duration: 237ms
+pass: GET /current_user duration: 251ms
+pass: GET /current_user/usage duration: 270ms
+pass: GET /users?full_name_contains=gardner&first_name_begins_with=mat&last_name_begins_with=gar duration: 500ms
+pass: GET /users/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 631ms
+skip: GET /system/permissions
+skip: PUT /system/permissions/ca29f7df-33ca-46dd-a015-92c46fdb6fd1
+skip: GET /system/permissions/ca29f7df-33ca-46dd-a015-92c46fdb6fd1
+skip: DELETE /system/permissions/ca29f7df-33ca-46dd-a015-92c46fdb6fd1
+pass: POST /projects duration: 823ms
+pass: GET /projects duration: 3917ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1 duration: 233ms
+pass: PUT /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1 duration: 236ms
+pass: DELETE /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1 duration: 237ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions duration: 247ms
+pass: PUT /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 281ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 232ms
+pass: DELETE /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 280ms
+pass: GET /project_roles duration: 203ms
+pass: GET /project_roles/principal_investigator duration: 209ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates duration: 217ms
+pass: PUT /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 271ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 210ms
+pass: DELETE /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 260ms
+pass: GET /storage_providers duration: 213ms
+pass: GET /storage_providers/g5579f73-0558-4f96-afc7-9d251e65bv33 duration: 212ms
+pass: POST /folders duration: 547ms
+pass: GET /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a duration: 767ms
+pass: DELETE /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a duration: 823ms
+pass: PUT /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a/move duration: 612ms
+pass: PUT /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a/rename duration: 231ms
+pass: POST /projects/666be35a-98e0-4c2e-9a17-7bc009f9bb23/uploads duration: 268ms
+pass: GET /projects/666be35a-98e0-4c2e-9a17-7bc009f9bb23/uploads duration: 222ms
+pass: GET /uploads/666be35a-98e0-4c2e-9a17-7bc009f9bb23 duration: 223ms
+Upload Swift chunk request path: https://swift-dev.oit.duke.edu/v1/AUTH_frds/9d8fce9f-07b8-40f6-8c0f-efd55bd305ef/296c111a-510c-4fcb-8381-73b99c1939a9/1?temp_url_sig=2a574f78f254f5c6e6146325e8f7d1bf4e4f3cdd&temp_url_expires=1447642297
+Upload Swift chunk HTTP status code: 201
+pass: PUT /uploads/666be35a-98e0-4c2e-9a17-7bc009f9bb23/chunks duration: 1209ms
+pass: PUT /uploads/666be35a-98e0-4c2e-9a17-7bc009f9bb23/complete duration: 1024ms
+fail: POST /files duration: 369ms
+fail: GET /files/777be35a-98e0-4c2e-9a17-7bc009f9b111 duration: 246ms
+Upload Swift chunk request path: https://swift-dev.oit.duke.edu/v1/AUTH_frds/9d8fce9f-07b8-40f6-8c0f-efd55bd305ef/58b55f62-0972-4e81-828a-fcb365a3277f/1?temp_url_sig=49e20620b5d564afce3d99b444760c1a81b3f6fd&temp_url_expires=1447642300
+Upload Swift chunk HTTP status code: 201
+pass: DELETE /files/777be35a-98e0-4c2e-9a17-7bc009f9b111 duration: 520ms
+fail: GET /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/download duration: 826ms
+Upload Swift chunk request path: https://swift-dev.oit.duke.edu/v1/AUTH_frds/9d8fce9f-07b8-40f6-8c0f-efd55bd305ef/87215860-213e-4297-b05e-f90997a1e780/1?temp_url_sig=c144d3a6e35360562dc4626891f2067dc39e797f&temp_url_expires=1447642305
+Upload Swift chunk HTTP status code: 201
+fail: PUT /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/move duration: 283ms
+Upload Swift chunk request path: https://swift-dev.oit.duke.edu/v1/AUTH_frds/9d8fce9f-07b8-40f6-8c0f-efd55bd305ef/94fc8c5c-bb65-4ae5-b97c-1a1625774eb6/1?temp_url_sig=2b8a2cdba15e39414b4ea3649fdbbb5cc9f0bcf1&temp_url_expires=1447642308
+Upload Swift chunk HTTP status code: 201
+fail: PUT /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/rename duration: 254ms
+fail: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/children?name_contains=Sequencing&kind=dds-folder duration: 278ms
+fail: GET /folders/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/children?name_contains=Sequencing&kind=dds-folder duration: 259ms
+info: Displaying failed tests...
+fail: POST /files duration: 369ms
+fail: body: At '/upload/size' Missing required property: size
+body: At '/upload/hash' Missing required property: hash
+body: At '/upload/storage_provider' Missing required property: storage_provider
+
+request: 
+body: 
+{
+  "parent": {
+    "kind": "dds-project",
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "upload": {
+    "id": "296c111a-510c-4fcb-8381-73b99c1939a9"
+  }
+}
+headers: 
+    Content-Type: application/json
+    User-Agent: Dredd/1.0.1 (Linux 3.19.0-31-generic; x64)
+    Accept:  application/json
+    Authorization:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZlMGI5MjllLWZjMjYtNDNjNC04NTYyLWJkOThmNDJjZmIyNiIsImF1dGhlbnRpY2F0aW9uX3NlcnZpY2VfaWQiOjEsImV4cCI6MTQ0NzY0NzQyOH0.loAC_L6TT6LbTrQexeCA_GtA0FArwWHA-TaU6pBTP6k
+    Content-Length: 132
+
+uri: /files
+method: POST
+
+
+expected: 
+headers: 
+    Content-Type: application/json
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "777be35a-98e0-4c2e-9a17-7bc009f9b111",
+  "parent": {
+    "kind": "dds-folder",
+    "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy"
+  },
+  "name": "RSEM_Normalized_PI3K_RNASeq_Matrix.Rdata",
+  "project": {
+    "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+      "name": "Knockout Mouse Project (KOMP)"
+    },
+    {
+      "kind": "dds-folder",
+      "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy",
+      "name": "Sequencing Core"
+    }
+  ],
+  "is_deleted": false,
+  "upload": {
+    "id": "666be35a-98e0-4c2e-9a17-7bc009f9bb23",
+    "size": 30024000,
+    "hash": {
+      "value": "cf23df2207d99a74fbe169e3eba035e633b65d94",
+      "algorithm": "md5"
+    },
+    "storage_provider": {
+      "id": "g5579f73-0558-4f96-afc7-9d251e65bv33",
+      "name": "duke_oit_swift",
+      "description": "Duke OIT Storage"
+    }
+  },
+  "audit": {}
+}
+statusCode: 201
+
+
+actual: 
+statusCode: 201
+headers: 
+    server: Cowboy
+    date: Mon, 16 Nov 2015 02:46:39 GMT
+    connection: close
+    strict-transport-security: max-age=31536000
+    content-type: application/json
+    etag: W/"907a28d7ec4f18212794b93aa31abe57"
+    cache-control: max-age=0, private, must-revalidate
+    x-request-id: d3b3bdbd-b420-41c1-aa24-a84ac0f703d7
+    x-runtime: 0.049203
+    vary: Origin
+    x-rack-cors: preflight-hit; no-origin
+    content-length: 809
+    via: 1.1 vegur
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "cfa78b6e-20fc-408e-b62e-9df7e807da7a",
+  "parent": {
+    "kind": "dds-project",
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "name": "upload-sample-W3S9AWS5J.txt",
+  "project": {
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "audit": {
+    "created_on": "2015-11-16T02:46:39.623Z",
+    "created_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "last_updated_on": "2015-11-16T02:46:36.070Z",
+    "last_updated_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "deleted_on": null,
+    "deleted_by": null
+  },
+  "upload": {
+    "id": "296c111a-510c-4fcb-8381-73b99c1939a9"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+      "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+    }
+  ],
+  "is_deleted": false
+}
+
+
+
+fail: GET /files/777be35a-98e0-4c2e-9a17-7bc009f9b111 duration: 246ms
+fail: body: At '/upload/size' Missing required property: size
+body: At '/upload/hash' Missing required property: hash
+body: At '/upload/storage_provider' Missing required property: storage_provider
+statusCode: Status code is not '201'
+
+request: 
+body: 
+
+headers: 
+    User-Agent: Dredd/1.0.1 (Linux 3.19.0-31-generic; x64)
+    Accept:  application/json
+    Authorization:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZlMGI5MjllLWZjMjYtNDNjNC04NTYyLWJkOThmNDJjZmIyNiIsImF1dGhlbnRpY2F0aW9uX3NlcnZpY2VfaWQiOjEsImV4cCI6MTQ0NzY0NzQyOH0.loAC_L6TT6LbTrQexeCA_GtA0FArwWHA-TaU6pBTP6k
+
+uri: /files/777be35a-98e0-4c2e-9a17-7bc009f9b111
+method: GET
+
+
+expected: 
+headers: 
+    Content-Type: application/json
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "777be35a-98e0-4c2e-9a17-7bc009f9b111",
+  "parent": {
+    "kind": "dds-folder",
+    "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy"
+  },
+  "name": "RSEM_Normalized_PI3K_RNASeq_Matrix.Rdata",
+  "project": {
+    "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+      "name": "Knockout Mouse Project (KOMP)"
+    },
+    {
+      "kind": "dds-folder",
+      "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy",
+      "name": "Sequencing Core"
+    }
+  ],
+  "is_deleted": false,
+  "upload": {
+    "id": "666be35a-98e0-4c2e-9a17-7bc009f9bb23",
+    "size": 30024000,
+    "hash": {
+      "value": "cf23df2207d99a74fbe169e3eba035e633b65d94",
+      "algorithm": "md5"
+    },
+    "storage_provider": {
+      "id": "g5579f73-0558-4f96-afc7-9d251e65bv33",
+      "name": "duke_oit_swift",
+      "description": "Duke OIT Storage"
+    }
+  },
+  "audit": {}
+}
+statusCode: 201
+
+
+actual: 
+statusCode: 200
+headers: 
+    server: Cowboy
+    date: Mon, 16 Nov 2015 02:46:39 GMT
+    connection: close
+    strict-transport-security: max-age=31536000
+    content-type: application/json
+    etag: W/"907a28d7ec4f18212794b93aa31abe57"
+    cache-control: max-age=0, private, must-revalidate
+    x-request-id: 72d1336f-3a54-4f8f-8b86-aa0a845a798e
+    x-runtime: 0.025251
+    vary: Origin
+    x-rack-cors: preflight-hit; no-origin
+    content-length: 809
+    via: 1.1 vegur
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "cfa78b6e-20fc-408e-b62e-9df7e807da7a",
+  "parent": {
+    "kind": "dds-project",
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "name": "upload-sample-W3S9AWS5J.txt",
+  "project": {
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "audit": {
+    "created_on": "2015-11-16T02:46:39.623Z",
+    "created_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "last_updated_on": "2015-11-16T02:46:36.070Z",
+    "last_updated_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "deleted_on": null,
+    "deleted_by": null
+  },
+  "upload": {
+    "id": "296c111a-510c-4fcb-8381-73b99c1939a9"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+      "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+    }
+  ],
+  "is_deleted": false
+}
+
+
+
+fail: GET /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/download duration: 826ms
+fail: body: Can't validate real media type 'application/json' against expected media type 'text/plain'.
+
+request: 
+body: 
+
+headers: 
+    User-Agent: Dredd/1.0.1 (Linux 3.19.0-31-generic; x64)
+    Accept:  application/json
+    Authorization:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZlMGI5MjllLWZjMjYtNDNjNC04NTYyLWJkOThmNDJjZmIyNiIsImF1dGhlbnRpY2F0aW9uX3NlcnZpY2VfaWQiOjEsImV4cCI6MTQ0NzY0NzQyOH0.loAC_L6TT6LbTrQexeCA_GtA0FArwWHA-TaU6pBTP6k
+
+uri: /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/download
+method: GET
+
+
+expected: 
+headers: 
+
+body: 
+
+statusCode: 301
+
+
+actual: 
+statusCode: 301
+headers: 
+    server: Cowboy
+    date: Mon, 16 Nov 2015 02:46:43 GMT
+    connection: close
+    strict-transport-security: max-age=31536000
+    location: https://swift-dev.oit.duke.edu/v1/AUTH_frds/9d8fce9f-07b8-40f6-8c0f-efd55bd305ef/296c111a-510c-4fcb-8381-73b99c1939a9?temp_url_sig=403ca829c304ca05927fe6ca133d07a6a9614053&temp_url_expires=1447642304
+    content-type: application/json
+    cache-control: no-cache
+    x-request-id: e95f504b-449c-4c2f-87db-ba3a6f9fafed
+    x-runtime: 0.020384
+    vary: Origin
+    x-rack-cors: preflight-hit; no-origin
+    content-length: 2
+    via: 1.1 vegur
+
+body: 
+""
+
+
+
+fail: PUT /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/move duration: 283ms
+fail: body: At '/upload/size' Missing required property: size
+body: At '/upload/hash' Missing required property: hash
+body: At '/upload/storage_provider' Missing required property: storage_provider
+
+request: 
+body: 
+{
+  "parent": {
+    "kind": "dds-folder",
+    "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8"
+  }
+}
+headers: 
+    Content-Type: application/json
+    User-Agent: Dredd/1.0.1 (Linux 3.19.0-31-generic; x64)
+    Accept:  application/json
+    Authorization:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZlMGI5MjllLWZjMjYtNDNjNC04NTYyLWJkOThmNDJjZmIyNiIsImF1dGhlbnRpY2F0aW9uX3NlcnZpY2VfaWQiOjEsImV4cCI6MTQ0NzY0NzQyOH0.loAC_L6TT6LbTrQexeCA_GtA0FArwWHA-TaU6pBTP6k
+    Content-Length: 76
+
+uri: /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/move
+method: PUT
+
+
+expected: 
+headers: 
+    Content-Type: application/json
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "777be35a-98e0-4c2e-9a17-7bc009f9b111",
+  "parent": {
+    "kind": "dds-folder",
+    "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e"
+  },
+  "name": "RSEM_Normalized_PI3K_RNASeq_Matrix.Rdata",
+  "project": {
+    "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+      "name": "Knockout Mouse Project (KOMP)"
+    },
+    {
+      "kind": "dds-folder",
+      "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e",
+      "name": "Sequencing Archive"
+    }
+  ],
+  "is_deleted": false,
+  "upload": {
+    "id": "666be35a-98e0-4c2e-9a17-7bc009f9bb23",
+    "size": 30024000,
+    "hash": {
+      "value": "cf23df2207d99a74fbe169e3eba035e633b65d94",
+      "algorithm": "md5"
+    },
+    "storage_provider": {
+      "id": "g5579f73-0558-4f96-afc7-9d251e65bv33",
+      "name": "duke_oit_swift",
+      "description": "Duke OIT Storage"
+    }
+  },
+  "audit": {}
+}
+statusCode: 200
+
+
+actual: 
+statusCode: 200
+headers: 
+    server: Cowboy
+    date: Mon, 16 Nov 2015 02:46:47 GMT
+    connection: close
+    strict-transport-security: max-age=31536000
+    content-type: application/json
+    etag: W/"6292ca60b5cc6ebdb31ae3b5529ffb4a"
+    cache-control: max-age=0, private, must-revalidate
+    x-request-id: 54a4df47-a2fa-422b-9d8f-b1e8f57bd25d
+    x-runtime: 0.062797
+    vary: Origin
+    x-rack-cors: preflight-hit; no-origin
+    content-length: 925
+    via: 1.1 vegur
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "250c26b7-45db-4373-8d2b-530de4c06190",
+  "parent": {
+    "kind": "dds-folder",
+    "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8"
+  },
+  "name": "upload-sample-WKM9AWS5C.txt",
+  "project": {
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "audit": {
+    "created_on": "2015-11-16T02:46:47.330Z",
+    "created_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "last_updated_on": "2015-11-16T02:46:47.587Z",
+    "last_updated_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "deleted_on": null,
+    "deleted_by": null
+  },
+  "upload": {
+    "id": "87215860-213e-4297-b05e-f90997a1e780"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+      "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+    },
+    {
+      "kind": "dds-folder",
+      "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8",
+      "name": "Model Data - QKZ9AQA5J - rename via dredd"
+    }
+  ],
+  "is_deleted": false
+}
+
+
+
+fail: PUT /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/rename duration: 254ms
+fail: body: At '/upload/size' Missing required property: size
+body: At '/upload/hash' Missing required property: hash
+body: At '/upload/storage_provider' Missing required property: storage_provider
+
+request: 
+body: 
+{
+  "name": "dredd_rename.WK49SWSXC.RSEM_Normalized_PI3K_RNASeq_Matrix_V2.Rdata"
+}
+headers: 
+    Content-Type: application/json
+    User-Agent: Dredd/1.0.1 (Linux 3.19.0-31-generic; x64)
+    Accept:  application/json
+    Authorization:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZlMGI5MjllLWZjMjYtNDNjNC04NTYyLWJkOThmNDJjZmIyNiIsImF1dGhlbnRpY2F0aW9uX3NlcnZpY2VfaWQiOjEsImV4cCI6MTQ0NzY0NzQyOH0.loAC_L6TT6LbTrQexeCA_GtA0FArwWHA-TaU6pBTP6k
+    Content-Length: 77
+
+uri: /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/rename
+method: PUT
+
+
+expected: 
+headers: 
+    Content-Type: application/json
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "777be35a-98e0-4c2e-9a17-7bc009f9b111",
+  "parent": {
+    "kind": "dds-folder",
+    "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e"
+  },
+  "name": "RSEM_Normalized_PI3K_RNASeq_Matrix_V2.Rdata",
+  "project": {
+    "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+      "name": "Knockout Mouse Project (KOMP)"
+    },
+    {
+      "kind": "dds-folder",
+      "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e",
+      "name": "Sequencing Archive"
+    }
+  ],
+  "is_deleted": false,
+  "upload": {
+    "id": "666be35a-98e0-4c2e-9a17-7bc009f9bb23",
+    "size": 30024000,
+    "hash": {
+      "value": "cf23df2207d99a74fbe169e3eba035e633b65d94",
+      "algorithm": "md5"
+    },
+    "storage_provider": {
+      "id": "g5579f73-0558-4f96-afc7-9d251e65bv33",
+      "name": "duke_oit_swift",
+      "description": "Duke OIT Storage"
+    }
+  },
+  "audit": {}
+}
+statusCode: 200
+
+
+actual: 
+statusCode: 200
+headers: 
+    server: Cowboy
+    date: Mon, 16 Nov 2015 02:46:49 GMT
+    connection: close
+    strict-transport-security: max-age=31536000
+    content-type: application/json
+    etag: W/"7dc7bf1babb8a2459e5070a0fe9ef649"
+    cache-control: max-age=0, private, must-revalidate
+    x-request-id: f7875dda-ee83-4d79-8558-80a7307d148d
+    x-runtime: 0.059623
+    vary: Origin
+    x-rack-cors: preflight-hit; no-origin
+    content-length: 848
+    via: 1.1 vegur
+
+body: 
+{
+  "kind": "dds-file",
+  "id": "cd5a3879-b61b-4f3b-bd53-da3f0c6c7519",
+  "parent": {
+    "kind": "dds-project",
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "name": "dredd_rename.WK49SWSXC.RSEM_Normalized_PI3K_RNASeq_Matrix_V2.Rdata",
+  "project": {
+    "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+  },
+  "audit": {
+    "created_on": "2015-11-16T02:46:50.111Z",
+    "created_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "last_updated_on": "2015-11-16T02:46:50.351Z",
+    "last_updated_by": {
+      "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+      "username": "gardn016",
+      "full_name": "Matt Gardner"
+    },
+    "deleted_on": null,
+    "deleted_by": null
+  },
+  "upload": {
+    "id": "94fc8c5c-bb65-4ae5-b97c-1a1625774eb6"
+  },
+  "ancestors": [
+    {
+      "kind": "dds-project",
+      "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+      "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+    }
+  ],
+  "is_deleted": false
+}
+
+
+
+fail: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/children?name_contains=Sequencing&kind=dds-folder duration: 278ms
+fail: body: At '/results/1/upload/size' Missing required property: size
+body: At '/results/1/upload/hash' Missing required property: hash
+body: At '/results/1/upload/storage_provider' Missing required property: storage_provider
+
+request: 
+body: 
+
+headers: 
+    User-Agent: Dredd/1.0.1 (Linux 3.19.0-31-generic; x64)
+    Accept:  application/json
+    Authorization:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZlMGI5MjllLWZjMjYtNDNjNC04NTYyLWJkOThmNDJjZmIyNiIsImF1dGhlbnRpY2F0aW9uX3NlcnZpY2VfaWQiOjEsImV4cCI6MTQ0NzY0NzQyOH0.loAC_L6TT6LbTrQexeCA_GtA0FArwWHA-TaU6pBTP6k
+
+uri: /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/children?name_contains=Sequencing&kind=dds-folder
+method: GET
+
+
+expected: 
+headers: 
+    Content-Type: application/json
+
+body: 
+{
+  "results": [
+    {
+      "kind": "dds-folder",
+      "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a",
+      "parent": {
+        "kind": "dds-folder",
+        "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy"
+      },
+      "name": "Raw Data",
+      "project": {
+        "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1"
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+          "name": "Knockout Mouse Project (KOMP)"
+        },
+        {
+          "kind": "dds-folder",
+          "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy",
+          "name": "Sequencing Core"
+        }
+      ],
+      "is_deleted": false,
+      "audit": {}
+    },
+    {
+      "kind": "dds-file",
+      "id": "777be35a-98e0-4c2e-9a17-7bc009f9b111",
+      "parent": {
+        "kind": "dds-folder",
+        "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e"
+      },
+      "name": "RSEM_Normalized_PI3K_RNASeq_Matrix.Rdata",
+      "project": {
+        "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a"
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+          "name": "Knockout Mouse Project (KOMP)"
+        },
+        {
+          "kind": "dds-folder",
+          "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e",
+          "name": "Sequencing Archive"
+        }
+      ],
+      "is_deleted": false,
+      "upload": {
+        "id": "666be35a-98e0-4c2e-9a17-7bc009f9bb23",
+        "size": 30024000,
+        "hash": {
+          "value": "cf23df2207d99a74fbe169e3eba035e633b65d94",
+          "algorithm": "md5"
+        },
+        "storage_provider": {
+          "id": "g5579f73-0558-4f96-afc7-9d251e65bv33",
+          "name": "duke_oit_swift",
+          "description": "Duke OIT Storage"
+        }
+      },
+      "audit": {}
+    }
+  ]
+}
+statusCode: 200
+
+
+actual: 
+statusCode: 200
+headers: 
+    server: Cowboy
+    date: Mon, 16 Nov 2015 02:46:49 GMT
+    connection: close
+    strict-transport-security: max-age=31536000
+    content-type: application/json
+    etag: W/"380c8c978d8c890d07259068fc42403a"
+    cache-control: max-age=0, private, must-revalidate
+    x-request-id: b1f01a2c-d870-48f7-be79-88d1f09f003b
+    x-runtime: 0.047911
+    vary: Origin
+    x-rack-cors: preflight-hit; no-origin
+    content-length: 2443
+    via: 1.1 vegur
+
+body: 
+{
+  "results": [
+    {
+      "kind": "dds-folder",
+      "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8",
+      "parent": {
+        "kind": "dds-project",
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "name": "Model Data - QKZ9AQA5J - rename via dredd",
+      "project": {
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "is_deleted": false,
+      "audit": {
+        "created_on": "2015-11-16T02:46:32.393Z",
+        "created_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "last_updated_on": "2015-11-16T02:46:36.310Z",
+        "last_updated_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "deleted_on": null,
+        "deleted_by": null
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+          "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+        }
+      ]
+    },
+    {
+      "kind": "dds-file",
+      "id": "cfa78b6e-20fc-408e-b62e-9df7e807da7a",
+      "parent": {
+        "kind": "dds-project",
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "name": "upload-sample-W3S9AWS5J.txt",
+      "project": {
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "audit": {
+        "created_on": "2015-11-16T02:46:50.111Z",
+        "created_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "last_updated_on": "2015-11-16T02:46:50.351Z",
+        "last_updated_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "deleted_on": null,
+        "deleted_by": null
+      },
+      "upload": {
+        "id": "296c111a-510c-4fcb-8381-73b99c1939a9"
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+          "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+        }
+      ],
+      "is_deleted": false
+    },
+    {
+      "kind": "dds-file",
+      "id": "cd5a3879-b61b-4f3b-bd53-da3f0c6c7519",
+      "parent": {
+        "kind": "dds-project",
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "name": "dredd_rename.WK49SWSXC.RSEM_Normalized_PI3K_RNASeq_Matrix_V2.Rdata",
+      "project": {
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "audit": {
+        "created_on": "2015-11-16T02:46:50.111Z",
+        "created_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "last_updated_on": "2015-11-16T02:46:50.351Z",
+        "last_updated_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "deleted_on": null,
+        "deleted_by": null
+      },
+      "upload": {
+        "id": "94fc8c5c-bb65-4ae5-b97c-1a1625774eb6"
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+          "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+        }
+      ],
+      "is_deleted": false
+    }
+  ]
+}
+
+
+
+fail: GET /folders/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/children?name_contains=Sequencing&kind=dds-folder duration: 259ms
+fail: body: At '/results/1/upload/size' Missing required property: size
+body: At '/results/1/upload/hash' Missing required property: hash
+body: At '/results/1/upload/storage_provider' Missing required property: storage_provider
+
+request: 
+body: 
+
+headers: 
+    User-Agent: Dredd/1.0.1 (Linux 3.19.0-31-generic; x64)
+    Accept:  application/json
+    Authorization:  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImZlMGI5MjllLWZjMjYtNDNjNC04NTYyLWJkOThmNDJjZmIyNiIsImF1dGhlbnRpY2F0aW9uX3NlcnZpY2VfaWQiOjEsImV4cCI6MTQ0NzY0NzQyOH0.loAC_L6TT6LbTrQexeCA_GtA0FArwWHA-TaU6pBTP6k
+
+uri: /folders/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/children?name_contains=Sequencing&kind=dds-folder
+method: GET
+
+
+expected: 
+headers: 
+    Content-Type: application/json
+
+body: 
+{
+  "results": [
+    {
+      "kind": "dds-folder",
+      "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a",
+      "parent": {
+        "kind": "dds-folder",
+        "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy"
+      },
+      "name": "Raw Data",
+      "project": {
+        "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1"
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+          "name": "Knockout Mouse Project (KOMP)"
+        },
+        {
+          "kind": "dds-folder",
+          "id": "552be8c5-209d-4e3b-afaf-cb66686ffbyy",
+          "name": "Sequencing Core"
+        }
+      ],
+      "is_deleted": false,
+      "audit": {}
+    },
+    {
+      "kind": "dds-file",
+      "id": "777be35a-98e0-4c2e-9a17-7bc009f9b111",
+      "parent": {
+        "kind": "dds-folder",
+        "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e"
+      },
+      "name": "RSEM_Normalized_PI3K_RNASeq_Matrix.Rdata",
+      "project": {
+        "id": "d5ae02a4-b9e6-473d-87c4-66f4c881ae7a"
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "ca29f7df-33ca-46dd-a015-92c46fdb6fd1",
+          "name": "Knockout Mouse Project (KOMP)"
+        },
+        {
+          "kind": "dds-folder",
+          "id": "2b91658a-2b0f-4ac6-83f5-287391610d0e",
+          "name": "Sequencing Archive"
+        }
+      ],
+      "is_deleted": false,
+      "upload": {
+        "id": "666be35a-98e0-4c2e-9a17-7bc009f9bb23",
+        "size": 30024000,
+        "hash": {
+          "value": "cf23df2207d99a74fbe169e3eba035e633b65d94",
+          "algorithm": "md5"
+        },
+        "storage_provider": {
+          "id": "g5579f73-0558-4f96-afc7-9d251e65bv33",
+          "name": "duke_oit_swift",
+          "description": "Duke OIT Storage"
+        }
+      },
+      "audit": {}
+    }
+  ]
+}
+statusCode: 200
+
+
+actual: 
+statusCode: 200
+headers: 
+    server: Cowboy
+    date: Mon, 16 Nov 2015 02:46:50 GMT
+    connection: close
+    strict-transport-security: max-age=31536000
+    content-type: application/json
+    etag: W/"518c4fc8654454757f9c3a0fffeda469"
+    cache-control: max-age=0, private, must-revalidate
+    x-request-id: 1379d7f5-e82b-4617-b250-d6d37f5fcf48
+    x-runtime: 0.040731
+    vary: Origin
+    x-rack-cors: preflight-hit; no-origin
+    content-length: 1818
+    via: 1.1 vegur
+
+body: 
+{
+  "results": [
+    {
+      "kind": "dds-folder",
+      "id": "ef35f01e-d549-4d7c-9771-732d8389d454",
+      "parent": {
+        "kind": "dds-folder",
+        "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8"
+      },
+      "name": "Move folder for dredd - W3CLAWA5J",
+      "project": {
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "is_deleted": false,
+      "audit": {
+        "created_on": "2015-11-16T02:46:50.111Z",
+        "created_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "last_updated_on": "2015-11-16T02:46:50.351Z",
+        "last_updated_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "deleted_on": null,
+        "deleted_by": null
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+          "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+        },
+        {
+          "kind": "dds-folder",
+          "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8",
+          "name": "Model Data - QKZ9AQA5J - rename via dredd"
+        }
+      ]
+    },
+    {
+      "kind": "dds-file",
+      "id": "250c26b7-45db-4373-8d2b-530de4c06190",
+      "parent": {
+        "kind": "dds-folder",
+        "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8"
+      },
+      "name": "upload-sample-WKM9AWS5C.txt",
+      "project": {
+        "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef"
+      },
+      "audit": {
+        "created_on": "2015-11-16T02:46:47.330Z",
+        "created_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "last_updated_on": "2015-11-16T02:46:47.587Z",
+        "last_updated_by": {
+          "id": "fe0b929e-fc26-43c4-8562-bd98f42cfb26",
+          "username": "gardn016",
+          "full_name": "Matt Gardner"
+        },
+        "deleted_on": null,
+        "deleted_by": null
+      },
+      "upload": {
+        "id": "87215860-213e-4297-b05e-f90997a1e780"
+      },
+      "ancestors": [
+        {
+          "kind": "dds-project",
+          "id": "9d8fce9f-07b8-40f6-8c0f-efd55bd305ef",
+          "name": "Knockout Mouse Project (KOMP) - QKMDSQA5C - update via dredd"
+        },
+        {
+          "kind": "dds-folder",
+          "id": "947102ae-f25a-4d1c-9640-38c64e75d1c8",
+          "name": "Model Data - QKZ9AQA5J - rename via dredd"
+        }
+      ],
+      "is_deleted": false
+    }
+  ]
+}
+
+
+
+complete: 34 passing, 7 failing, 0 errors, 4 skipped, 45 total
+complete: Tests took 31322ms
+complete: See results in Apiary at: https://app.apiary.io/public/tests/run/53ec87e0-c862-407d-97c9-193e82e05ab1

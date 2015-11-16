@@ -1,0 +1,55 @@
+info: Using apiary reporter.
+warn: Apiary reporter environment variable APIARY_API_KEY or APIARY_API_NAME not defined.
+info: Beginning Dredd testing...
+info: Found Hookfiles: ./hooks.js
+Sample chunk content to upload: This is sample chunk content for chunk number: 1
+pass: GET /auth_roles?context=system duration: 407ms
+pass: GET /auth_roles/file_editor duration: 269ms
+pass: GET /current_user duration: 274ms
+pass: GET /current_user/usage duration: 260ms
+pass: GET /users?full_name_contains=gardner&first_name_begins_with=mat&last_name_begins_with=gar duration: 437ms
+fail: GET /users/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 298ms
+skip: GET /system/permissions
+skip: PUT /system/permissions/ca29f7df-33ca-46dd-a015-92c46fdb6fd1
+skip: GET /system/permissions/ca29f7df-33ca-46dd-a015-92c46fdb6fd1
+skip: DELETE /system/permissions/ca29f7df-33ca-46dd-a015-92c46fdb6fd1
+pass: POST /projects duration: 423ms
+pass: GET /projects duration: 4961ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1 duration: 810ms
+pass: PUT /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1 duration: 622ms
+pass: DELETE /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1 duration: 287ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions duration: 280ms
+pass: PUT /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 327ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 237ms
+pass: DELETE /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/permissions/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 301ms
+pass: GET /project_roles duration: 246ms
+pass: GET /project_roles/principal_investigator duration: 235ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates duration: 237ms
+pass: PUT /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 298ms
+pass: GET /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 257ms
+pass: DELETE /projects/ca29f7df-33ca-46dd-a015-92c46fdb6fd1/affiliates/c1179f73-0558-4f96-afc7-9d251e65b7bb duration: 281ms
+pass: GET /storage_providers duration: 239ms
+pass: GET /storage_providers/g5579f73-0558-4f96-afc7-9d251e65bv33 duration: 220ms
+pass: POST /folders duration: 303ms
+pass: GET /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a duration: 256ms
+pass: DELETE /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a duration: 282ms
+pass: PUT /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a/move duration: 295ms
+pass: PUT /folders/d5ae02a4-b9e6-473d-87c4-66f4c881ae7a/rename duration: 884ms
+pass: POST /projects/666be35a-98e0-4c2e-9a17-7bc009f9bb23/uploads duration: 823ms
+pass: GET /projects/666be35a-98e0-4c2e-9a17-7bc009f9bb23/uploads duration: 700ms
+pass: GET /uploads/666be35a-98e0-4c2e-9a17-7bc009f9bb23 duration: 823ms
+Upload Swift chunk request path: https://swift-dev.oit.duke.edu/v1/AUTH_frds/48803420-adad-446b-a962-284598f1b395/b43fde2b-810d-402b-b14a-72fba1f3289c/1?temp_url_sig=9b9ce3fde3123c3951e3b8c0bbb9a3bf5b0044f6&temp_url_expires=1447639182
+Upload Swift chunk HTTP status code: 201
+pass: PUT /uploads/666be35a-98e0-4c2e-9a17-7bc009f9bb23/chunks duration: 2651ms
+pass: PUT /uploads/666be35a-98e0-4c2e-9a17-7bc009f9bb23/complete duration: 1208ms
+fail: POST /files duration: 356ms
+fail: GET /files/777be35a-98e0-4c2e-9a17-7bc009f9b111 duration: 279ms
+Sample chunk content to upload: This is sample chunk content for chunk number: 1
+Upload Swift chunk request path: https://swift-dev.oit.duke.edu/v1/AUTH_frds/48803420-adad-446b-a962-284598f1b395/7b9c7401-32b1-4a56-a5d1-a925327f7202/1?temp_url_sig=6c5e1136de34076ae457c5f586997396c56b04db&temp_url_expires=1447639186
+Upload Swift chunk HTTP status code: 201
+pass: DELETE /files/777be35a-98e0-4c2e-9a17-7bc009f9b111 duration: 825ms
+fail: GET /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/download duration: 689ms
+Sample chunk content to upload: This is sample chunk content for chunk number: 1
+Upload Swift chunk request path: https://swift-dev.oit.duke.edu/v1/AUTH_frds/48803420-adad-446b-a962-284598f1b395/ede114c4-a97f-4cd1-af48-268cdf22cf08/1?temp_url_sig=3f599c6d2c2c5c34f47fbe57897f7634cb26a54b&temp_url_expires=1447639191
+Upload Swift chunk HTTP status code: 201
+fail: PUT /files/777be35a-98e0-4c2e-9a17-7bc009f9b111/move duration: 297ms

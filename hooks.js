@@ -4,7 +4,7 @@ var _ = require('underscore');
 var Client = require('node-rest-client').Client;
 var Promise = require("node-promise").Promise;
 var fs = require("fs");
-var md5File = require('md5-file');
+var md5 = require('md5');
 
 // function to create resources on fly - returns promise
 function createResource(request_method, request_path, request_payload) {
@@ -28,13 +28,27 @@ function createResource(request_method, request_path, request_payload) {
   return request;
 }
 
+// function to generate sample chunk details - returns chunk object
+function getSampleChunk(chunk_number) { 
+  var chunk = {};
+  chunk['content'] = 'This is sample chunk content for chunk number: '.concat(chunk_number);
+  // console.log('Sample chunk content to upload: '.concat(chunk['content']));
+  chunk['content_type'] = 'text/plain';
+  chunk['number'] = chunk_number;
+  chunk['size'] = Buffer.byteLength(chunk['content']);
+  chunk['hash'] = {};
+  chunk['hash']['value'] = md5(chunk['content']);
+  chunk['hash']['algorithm'] = 'md5';
+  return chunk;
+}
+
 // function to upload Swift file chunk - returns promise
-function uploadSwiftChunk(request_method, request_path, file) {
+function uploadSwiftChunk(request_method, request_path, chunk_content) {
   var request = new Promise();
   var client = new Client();
   var args = {
     // "headers": { "Content-Type": "application/json", "Authorization": process.env.DUKEDS_API_KEY },
-    "data": fs.readFileSync(file, 'utf8')
+    "data": chunk_content
   };
   console.log('Upload Swift chunk request path: '.concat(request_path));
   client.registerMethod("apiMethod", request_path, request_method);
@@ -49,6 +63,52 @@ function uploadSwiftChunk(request_method, request_path, file) {
     request.resolve(data);
   });
   return request;
+}
+
+function createUploadResource() {
+  var upload = new Promise();
+  var chunk = getSampleChunk(1);
+  var uploadId = null;
+  var init_chunked_upload = function() {
+    var request = new Promise();
+    var payload = {};
+    payload['name'] = 'upload-sample'.concat('-').concat(shortid.generate()).concat('.txt');
+    payload['content_type'] = chunk['content_type'];
+    payload['size'] = chunk['size'];
+    payload['hash'] = {};
+    payload['hash']['value'] = chunk['hash']['value'];
+    payload['hash']['algorithm'] = chunk['hash']['algorithm'];
+    createResource('POST', '/projects/'.concat(g_projectId).concat('/uploads'), JSON.stringify(payload)).then(function(data) {
+      uploadId = data['id'];
+      request.resolve(data);
+    });
+    return request;
+  }
+  var upload_chunk = function(data) {
+    var request = new Promise();
+    var payload = {};
+    payload['number'] = chunk['number'];
+    payload['size'] = chunk['size'];
+    payload['hash'] = {};
+    payload['hash']['value'] = chunk['hash']['value'];
+    payload['hash']['algorithm'] = chunk['hash']['algorithm'];
+    createResource('PUT', '/uploads/'.concat(uploadId).concat('/chunks'), JSON.stringify(payload)).then(function(data) {
+      uploadSwiftChunk('PUT', data['host'].concat(data['url']), chunk['content']).then(function(data) {
+        request.resolve(data);
+      });
+    });
+    return request;
+  }
+  var complete_upload = function(uploadId) {
+    payload = '';
+    return createResource('PUT', '/uploads/'.concat(uploadId).concat('/complete'), JSON.stringify(payload));
+  }
+  init_chunked_upload().then(upload_chunk).then(function(data) {
+    complete_upload(uploadId).then(function(data) {
+      upload.resolve(data);
+    }); 
+  });
+  return upload;
 }
 
 var LIST_AUTH_ROLES = "Authorization Roles > Authorization Roles collection > List roles";
@@ -414,26 +474,23 @@ hooks.before(RENAME_FOLDER, function (transaction) {
 
 var INIT_CHUNKED_UPLOAD = "Uploads > Uploads collection > Initiate chunked upload";
 var LIST_CHUNKED_UPLOADS = "Uploads > Uploads collection > List chunked uploads";
-var VIEW_CHUNKED_UPLOAD = "Uploads > Upload instance > View upload";
+var VIEW_CHUNKED_UPLOAD = "Uploads > Upload instance > View chunked upload";
 var GET_CHUNK_URL = "Uploads > Upload instance > Get pre-signed chunk URL";
 var COMPLETE_CHUNKED_UPLOAD = "Uploads > Upload instance > Complete chunked file upload";
 var responseStash = {};
 var g_uploadId = null;
-// sample file properties for testing upload workflow
-var sampleFile = './upload-sample.html';
-var fstats = fs.statSync(sampleFile);
-var fsize = fstats['size'];
-var md5Hash = md5File(sampleFile);
+// get a sample chunk to upload
+var chunk = getSampleChunk(1);
 
 hooks.before(INIT_CHUNKED_UPLOAD, function (transaction) {
   // parse request body from blueprint
   var requestBody = JSON.parse(transaction.request.body);
   // modify request body here
-  requestBody['name'] = 'upload-sample'.concat('-').concat(shortid.generate()).concat('.html');
-  requestBody['content_type'] = 'text/html';
-  requestBody['size'] = fsize;
-  requestBody['hash']['value'] = md5Hash;
-  requestBody['hash']['algorithm'] = 'md5';
+  requestBody['name'] = 'upload-sample'.concat('-').concat(shortid.generate()).concat('.txt');
+  requestBody['content_type'] = chunk['content_type'];
+  requestBody['size'] = chunk['size'];
+  requestBody['hash']['value'] = chunk['hash']['value'];
+  requestBody['hash']['algorithm'] = chunk['hash']['algorithm'];
   // stringify the new boy to request
   transaction.request.body = JSON.stringify(requestBody);
   // replacing id in URL with stashed id from previous response
@@ -466,10 +523,10 @@ hooks.before(GET_CHUNK_URL, function (transaction) {
   // parse request body from blueprint
   var requestBody = JSON.parse(transaction.request.body);
   // modify request body here
-  requestBody['number'] = 1;
-  requestBody['size'] = fsize;
-  requestBody['hash']['value'] = md5Hash;
-  requestBody['hash']['algorithm'] = 'md5';
+  requestBody['number'] = chunk['number'];
+  requestBody['size'] = chunk['size'];
+  requestBody['hash']['value'] = chunk['hash']['value'];
+  requestBody['hash']['algorithm'] = chunk['hash']['algorithm'];
   // stringify the new boy to request
   transaction.request.body = JSON.stringify(requestBody);
   // replacing id in URL with stashed id from previous response
@@ -481,7 +538,7 @@ hooks.after(GET_CHUNK_URL, function (transaction, done) {
   // saving HTTP response to the stash
   responseStash[GET_CHUNK_URL] = transaction.real.body;
   payload = JSON.parse(responseStash[GET_CHUNK_URL]);
-  request = uploadSwiftChunk('PUT', payload['host'].concat(payload['url']), sampleFile);
+  request = uploadSwiftChunk('PUT', payload['host'].concat(payload['url']), chunk['content']);
   request.then(function(data) {
     done();
   });
@@ -499,29 +556,102 @@ var DELETE_FILE = "Files > File instance > Delete file";
 var DOWNLOAD_FILE = "Files > File instance > Download file";
 var MOVE_FILE = "Files > File instance > Move file";
 var RENAME_FILE = "Files > File instance > Rename file";
+var responseStash = {};
+var g_fileId = null;
 
 hooks.before(CREATE_FILE, function (transaction) {
-  transaction.skip = true;
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['parent']['kind'] = 'dds-project';
+  requestBody['parent']['id'] = g_projectId;
+  requestBody['upload']['id'] = g_uploadId;
+  // stringify the new body to request
+  transaction.request.body = JSON.stringify(requestBody);
+});
+
+hooks.after(CREATE_FILE, function (transaction) {
+  // saving HTTP response to the stash
+  responseStash[CREATE_FILE] = transaction.real.body;
 });
 
 hooks.before(VIEW_FILE, function (transaction) {
-  transaction.skip = true;
+  // reusing data from previous response here
+  var fileId = JSON.parse(responseStash[CREATE_FILE])['id'];
+  // replacing id in URL with stashed id from previous response
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('777be35a-98e0-4c2e-9a17-7bc009f9b111', fileId);
+  // set global id for downstream tests
+  g_fileId = fileId;
 });
 
-hooks.before(DELETE_FILE, function (transaction) {
-  transaction.skip = true;
+hooks.before(DELETE_FILE, function (transaction, done) {
+  var request = createUploadResource();
+  request.then(function(data) {
+    var payload = {
+      "parent": { "kind": "dds-project", "id": g_projectId },
+      "upload": { "id": data['id'] }
+    };
+    var request = createResource('POST', '/files', JSON.stringify(payload));
+    // delete sample file resource we created
+    request.then(function(data) {
+      var url = transaction.fullPath;
+      transaction.fullPath = url.replace('777be35a-98e0-4c2e-9a17-7bc009f9b111', data['id']);
+      done();
+    });
+  });
 });
 
 hooks.before(DOWNLOAD_FILE, function (transaction) {
-  transaction.skip = true;
+  var url = transaction.fullPath;
+  transaction.fullPath = url.replace('777be35a-98e0-4c2e-9a17-7bc009f9b111', g_fileId);
 });
 
-hooks.before(MOVE_FILE, function (transaction) {
-  transaction.skip = true;
+hooks.before(MOVE_FILE, function (transaction, done) {
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['parent']['kind'] = 'dds-folder';
+  requestBody['parent']['id'] = g_folderId;
+  // stringify the new body to request
+  transaction.request.body = JSON.stringify(requestBody);
+  var request = createUploadResource();
+  request.then(function(data) {
+    var payload = {
+      "parent": { "kind": "dds-project", "id": g_projectId },
+      "upload": { "id": data['id'] }
+    };
+    var request = createResource('POST', '/files', JSON.stringify(payload));
+    // move sample file resource we created
+    request.then(function(data) {
+      var url = transaction.fullPath;
+      transaction.fullPath = url.replace('777be35a-98e0-4c2e-9a17-7bc009f9b111', data['id']);
+      done();
+    });
+  });
 });
 
-hooks.before(RENAME_FILE, function (transaction) {
-  transaction.skip = true;
+hooks.before(RENAME_FILE, function (transaction, done) {
+  // parse request body from blueprint
+  var requestBody = JSON.parse(transaction.request.body);
+  // modify request body here
+  requestBody['name'] = 'dredd_rename'.concat('.').concat(shortid.generate()).concat('.').concat(requestBody['name']);
+  // stringify the new body to request
+  transaction.request.body = JSON.stringify(requestBody);
+  var request = createUploadResource();
+  request.then(function(data) {
+    var payload = {
+      "parent": { "kind": "dds-project", "id": g_projectId },
+      "upload": { "id": data['id'] }
+    };
+    var request = createResource('POST', '/files', JSON.stringify(payload));
+    // rename sample file resource we created
+    request.then(function(data) {
+      var url = transaction.fullPath;
+      transaction.fullPath = url.replace('777be35a-98e0-4c2e-9a17-7bc009f9b111', data['id']);
+      done();
+    });
+  });
 });
 
 var SEARCH_PROJECT_CHILDREN = "Search Project/Folder Children > Search Project Children > Search Project Children";
