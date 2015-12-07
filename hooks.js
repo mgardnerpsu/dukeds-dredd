@@ -553,7 +553,7 @@ hooks.before(COMPLETE_CHUNKED_UPLOAD, function (transaction) {
 var CREATE_FILE = "Files > Files collection > Create file";
 var VIEW_FILE = "Files > File instance > View file";
 var DELETE_FILE = "Files > File instance > Delete file";
-var DOWNLOAD_FILE = "Files > File instance > Download file";
+var GET_FILE_URL = "Files > File instance > Get pre-signed download URL";
 var MOVE_FILE = "Files > File instance > Move file";
 var RENAME_FILE = "Files > File instance > Rename file";
 var responseStash = {};
@@ -602,7 +602,7 @@ hooks.before(DELETE_FILE, function (transaction, done) {
   });
 });
 
-hooks.before(DOWNLOAD_FILE, function (transaction) {
+hooks.before(GET_FILE_URL, function (transaction) {
   var url = transaction.fullPath;
   transaction.fullPath = url.replace('777be35a-98e0-4c2e-9a17-7bc009f9b111', g_fileId);
 });
@@ -673,5 +673,11 @@ hooks.before(SEARCH_FOLDER_CHILDREN, function (transaction) {
     url = url.substr(0, url.indexOf('?'));
   } 
   transaction.fullPath = url.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_folderId);
+});
+
+var CREATE_TAG = "Tags > Tags collection > Create tag";
+
+hooks.before(CREATE_TAG, function (transaction) {
+  transaction.skip = true;
 });
 
