@@ -657,6 +657,16 @@ hooks.before(RENAME_FILE, function (transaction, done) {
 var SEARCH_PROJECT_CHILDREN = "Search Project/Folder Children > Search Project Children > Search Project Children";
 var SEARCH_FOLDER_CHILDREN = "Search Project/Folder Children > Search Folder Children > Search Folder Children";
 
+/*
+    _.move - takes array and moves item at index and moves to another index.
+*/
+_.mixin({
+    move: function (array, fromIndex, toIndex) {
+      array.splice(toIndex, 0, array.splice(fromIndex, 1)[0] );
+      return array;
+    }   
+});
+
 hooks.before(SEARCH_PROJECT_CHILDREN, function (transaction) {
   // replacing id in URL with stashed id from previous response
   var url = transaction.fullPath;
@@ -664,6 +674,17 @@ hooks.before(SEARCH_PROJECT_CHILDREN, function (transaction) {
     url = url.substr(0, url.indexOf('?'));
   } 
   transaction.fullPath = url.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_projectId);
+});
+
+hooks.beforeValidation(SEARCH_PROJECT_CHILDREN, function (transaction) {
+  // get the real body content
+  var realBody = JSON.parse(transaction.real.body);
+  // place a folder and file on top of the array stack to aligh with apiary
+  var folder_idx = _.findIndex(realBody.results, { kind: 'dds-folder' });
+  realBody.results = _.move(realBody.results, folder_idx, 0);
+  var file_idx = _.findIndex(realBody.results, { kind: 'dds-file' });
+  realBody.results = _.move(realBody.results, file_idx, 1);
+  transaction.real.body = JSON.stringify(realBody);
 });
 
 hooks.before(SEARCH_FOLDER_CHILDREN, function (transaction) {
@@ -675,9 +696,13 @@ hooks.before(SEARCH_FOLDER_CHILDREN, function (transaction) {
   transaction.fullPath = url.replace('ca29f7df-33ca-46dd-a015-92c46fdb6fd1', g_folderId);
 });
 
-var CREATE_TAG = "Tags > Tags collection > Create tag";
-
-hooks.before(CREATE_TAG, function (transaction) {
-  transaction.skip = true;
+hooks.beforeValidation(SEARCH_FOLDER_CHILDREN, function (transaction) {
+  // get the real body content
+  var realBody = JSON.parse(transaction.real.body);
+  // place a folder and file on top of the array stack to aligh with apiary
+  var folder_idx = _.findIndex(realBody.results, { kind: 'dds-folder' });
+  realBody.results = _.move(realBody.results, folder_idx, 0);
+  var file_idx = _.findIndex(realBody.results, { kind: 'dds-file' });
+  realBody.results = _.move(realBody.results, file_idx, 1);
+  transaction.real.body = JSON.stringify(realBody);
 });
-
